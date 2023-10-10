@@ -81,21 +81,16 @@ RUN apt-get update -qq \
 COPY README.md /opt/fs-extensions/
 COPY src /opt/fs-extensions/src
 
+# Additional installs for ImageMagick, xvfb
 RUN apt-get update -qq \
     && apt-get install -y -q --no-install-recommends \
-           mesa-libGLU \
-           mesa-dri-drivers \
-           java-1.8.0-openjdk \
-           openblas-devel \
-           ImageMagick \
-           xorg-x11-server-Xvfb \
-           xorg-x11-xauth \
-           which 
+           xvfb \
+           imagemagick 
 
 # Path
 ENV PATHEXT /opt/fs-extensions/src
 ENV PATHSYS /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ENV PATH ${PATHEXT}:${PATHSYS}
+ENV PATH $PATH:${PATHEXT}:${PATHSYS}
 
 # add config file script for TRACULA
 COPY --chown=501:1590 external/dmri_bids_config /usr/local/freesurfer/bin/dmri_bids_config
